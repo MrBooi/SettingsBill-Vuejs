@@ -10,3 +10,40 @@
 // * add the appropriate value to the running total
 // * add nothing for invalid values that is not 'call' or 'sms'.
 // * display the latest total on the screen
+
+
+let radioInputBill = new Vue({
+    el: '.radioInputBill',
+    data : {    
+        callTotalTwo: 0.00,
+        smsTotalTwo : 0.00,
+         picked:''
+    },
+    computed : {
+        grandTotalTwo: function (){
+          return  this.callTotalTwo+ this.smsTotalTwo;
+        },
+       changeColor : function () {
+        let total= this.grandTotalTwo;
+        if(total>50.00){
+          return 'danger'    
+         }
+         if (total >30.00 && total <50.00) { 
+          return 'warning'
+         }
+      } 
+    },
+    
+    methods : {
+      AddTwo : function() {
+        let billType = this.picked.trim();
+     
+        if (billType === 'call') {
+           this.callTotalTwo +=2.75;
+        }
+        else if(billType === 'sms'){
+         this.smsTotalTwo +=0.75;
+        }
+      }
+    }
+})

@@ -5,6 +5,7 @@
     <title></title>
     <link rel="stylesheet" href="css/skeleton.css">
     <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
   </head>
   <body>
     <div class="container">
@@ -39,7 +40,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="six columns box">
+        <div class="six columns box calculateBill">
           <h3>Calculate bill</h3>
           Enter a string with 'call' or 'sms' seperated by commas. When the Calculate button is pressed show the total phone bill for the string entered.
 
@@ -58,16 +59,16 @@
           <div class="row">
             <div class="eight columns">
               <h5>Enter bill string</h5>
-              <textarea name="name" rows="20" cols="40" class="billString" class="billString" ></textarea>
-              <button class="button-primary calculateBtn" on type="button" name="button">Calculate</button>
+              <textarea name="name" rows="20" cols="40" class="billString" class="billString" v-model="billString" ></textarea>
+              <!-- <button class="button-primary calculateBtn" on type="button" name="button" v-on:click="calculate">Calculate</button> -->
             </div>
             <div class="four columns">
               <strong>Total amount:</strong>
-              <span class="total ">R<span class="billTotal">0.00</span> </span>
+              <span class="total ">R<span v-bind:class="[billTotal, changeColor]" >{{billTotal}}</span> </span>
             </div>
           </div>
         </div>
-        <div class="six columns box">
+        <div class="six columns box textInputBill">
           <h3>Text input bill</h3>
 
           <div class="">
@@ -87,23 +88,23 @@
             <div class="six columns">
 
               <label for="">Bill type</label>
-              <input type="text" name="" value="" placeholder="enter 'call' or 'sms' " class="billTypeText">
-              <button class="button-primary addToBillBtn" type="button" name="button" >Add</button>
+              <input type="text" name="" value="" placeholder="enter 'call' or 'sms' " v-model="billType" class="billTypeText">
+              <button class="button-primary addToBillBtn" type="button" name="button" v-on:click="add" >Add</button>
           </div>
             <div class="six columns">
               <h5>Totals</h5>
               <table>
                 <tr>
                   <td>Call total</td>
-                  <td>R<span class="callTotalOne">27.50</span></td>
+                  <td>R<span class="callTotalOne">{{callTotal}}</span></td>
                 </tr>
                 <tr>
                   <td>SMS total</td>
-                  <td>R<span class="smsTotalOne">13.75</span></td>
+                  <td>R<span class="smsTotalOne">{{smsTotal}}</span></td>
                 </tr>
                 <tr>
                   <td>Total</td>
-                  <td class="red">R<span class="totalOne">41.25</span></td>
+                  <td class="red">R<span v-bind:class="[changeColor]">{{grandTotal}}</span></td>
                 </tr>
               </table>
             </div>
@@ -112,7 +113,7 @@
 
       </div>
       <div class="row">
-        <div class="six columns box">
+        <div class="six columns box radioInputBill">
           <h3>Radio button bill</h3>
 
           <div class="">
@@ -137,35 +138,35 @@
             <div class="six columns">
               <h5>Bill type</h5>
               <label class="">
-                <input type="radio" name="billItemType" class="billItemTypeRadio" value="call">
+                <input type="radio" name="billItemType" class="billItemTypeRadio" value="call" v-model="picked">
                 <span class="label-body">Call</span>
               </label>
               <label class="">
-                <input type="radio" name="billItemType" class="billItemTypeRadio" value="sms">
+                <input type="radio" name="billItemType" class="billItemTypeRadio" value="sms" v-model="picked">
                 <span class="label-body" >SMS</span>
               </label>
-              <button class="button-primary radioBillAddBtn" type="button" name="button">Add</button>
+              <button class="button-primary radioBillAddBtn" type="button" name="button" v-on:click="AddTwo" >Add</button>
             </div>
             <div class="six columns">
                   <h5>Totals</h5>
                   <table>
                     <tr>
                       <td>Call total</td>
-                      <td>R<span class="callTotalTwo">34.50</span></td>
+                      <td>R<span class="callTotalTwo">{{callTotalTwo}}</span></td>
                     </tr>
                     <tr>
                       <td>SMS total</td>
-                      <td>R<span class="smsTotalTwo">3.00</span></td>
+                      <td>R<span class="smsTotalTwo">{{smsTotalTwo}}</span></td>
                     </tr>
                     <tr >
                       <td>Total</td>
-                      <td class="orange" >R<span class="totalTwo">37.50</span></td>
+                      <td class="orange" >R<span v-bind:class="[changeColor]">{{grandTotalTwo}}</span></td>
                     </tr>
                   </table>
             </div>
           </div>
         </div>
-        <div class="six columns box">
+        <div class="six columns box billWithSetting">
           <h3>Bill with settings</h3>
           <div class="">
             Select the call or sms radio button. Update the appropriate total and the overall total when the ADD button in pressed.
@@ -186,43 +187,43 @@
             <div class="six columns">
               <h5>Bill type</h5>
               <label class="">
-                <input type="radio" name="billItemTypeWithSettings" class="billItemTypeWithSettings">
+                <input type="radio" name="billItemTypeWithSettings" class="billItemTypeWithSettings" value="call" v-model="picked">
                 <span class="label-body">Call</span>
               </label>
               <label class="">
-                <input type="radio" name="billItemTypeWithSettings" class="billItemTypeWithSettings">
+                <input type="radio" name="billItemTypeWithSettings" class="billItemTypeWithSettings" value="sms" v-model="picked">
                 <span class="label-body" >SMS</span>
               </label>
-              <button class="button-primary" type="button" name="button">Add</button>
+              <button class="button-primary" type="button" name="button" v-on:click="add">Add</button>
 
               <h5>Totals</h5>
                   <table>
                     <tr>
                       <td>Call total</td>
-                      <td>R<span class="callTotalSettings">34.00</span> </td>
+                      <td>R<span class="callTotalSettings">{{callTotal}}</span> </td>
                     </tr>
                     <tr>
                       <td>SMS total</td>
-                      <td>R<span class="smsTotalSettings">7.35</span> </td>
+                      <td>R<span class="smsTotalSettings">{{smsTotal}}</span> </td>
                     </tr>
                     <tr>
                       <td>Total</td>
-                      <td> R<span class="totalSettings">41.35</span> </td>
+                      <td> R<span  v-bind:class="[changeColor]">{{grandTotal}}</span> </td>
                     </tr>
                   </table>
 
             </div>
-            <div class="six columns">
+            <div class="six columns ">
               <h5>Settings</h5>
               <label for="exampleEmailInput">Call cost</label>
-              <input class="u-full-width callCostSetting" type="number" placeholder="eg. 2.55">
+              <input class="u-full-width callCostSetting" type="number" placeholder="eg. 2.55" v-model='callCost'>
               <label for="exampleEmailInput">SMS cost</label>
-              <input class="u-full-width smsCostSetting" type="number" placeholder="eg. 0.65" >
+              <input class="u-full-width smsCostSetting" type="number" placeholder="eg. 0.65" v-model='smsCost'>
               <label for="">Warning level</label>
-              <input class="u-full-width warningLevelSetting " type="number" placeholder="eg. 30.00" class="warningLevel" >
+              <input class="u-full-width warningLevelSetting " type="number" placeholder="eg. 30.00" class="warningLevel" v-model= 'warnLevel' >
               <label for="">Critical level</label>
-              <input class="u-full-width criticalLevelSetting" type="number" placeholder="eg. 65.00" >
-              <button class="button-primary updateSettings" type="button" name="button">Update settings</button>
+              <input class="u-full-width criticalLevelSetting" type="number" placeholder="eg. 65.00"  v-model= 'critLevel' >
+              <button class="button-primary updateSettings" type="button" name="button" v-on:click="update">Update settings</button>
 
             </div>
           </div>
